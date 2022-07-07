@@ -2,7 +2,7 @@
 import { program } from 'commander';
 import comparisonFile from './index.js';
 
-const printComparisonFile = (filepath1, filepath2) => console.log(comparisonFile(filepath1, filepath2));
+const printComparisonFile = (path1, path2) => console.log(comparisonFile(path1, path2));
 
 program
   .name('gendiff ')
