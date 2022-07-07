@@ -10,5 +10,5 @@ const a = `{
 }`;
 
 test('getComparisonFile', () => {
-  expect(getComparisonFile('/home/srj/frontend-project-lvl2/file1.json', '/home/srj/frontend-project-lvl2/file2.json')).toEqual(a);
+  expect(getComparisonFile('__fixtures__/file1.json', '__fixtures__/file2.json')).toEqual(a);
 });
