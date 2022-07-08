@@ -1,5 +1,5 @@
 # Name of workflow
-name: Run test and lint
+name: test and lint
 
 # Trigger the workflow on push or pull request
 on:

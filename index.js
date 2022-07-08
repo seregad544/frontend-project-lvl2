@@ -1,18 +1,5 @@
-import { readFileSync } from 'fs';
 import _ from 'lodash';
-import { resolve, extname } from 'path';
-
-const readFile = (pathFile) => {
-  const fullPath = resolve(pathFile);
-  const fileExtension = extname(fullPath);
-  const file = readFileSync(fullPath, 'utf8');
-  return [file, fileExtension];
-};
-
-const convertToObject = (pathFile) => {
-  const [file, fileExtension] = readFile(pathFile);
-  return (fileExtension === '.json') ? JSON.parse(file) : null;
-};
+import parser from './parser.js';
 
 const getObjectKeys = (obj1, obj2) => {
   const key1 = Object.keys(obj1);
@@ -44,8 +31,8 @@ ${result.join('\n')}
 };
 
 const getComparisonFile = (path1, path2) => {
-  const file1 = convertToObject(path1);
-  const file2 = convertToObject(path2);
+  const file1 = parser(path1);
+  const file2 = parser(path2);
   const result = getComparisonObject(file1, file2);
   return result;
 };

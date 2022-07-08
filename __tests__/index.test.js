@@ -39,9 +39,16 @@ const test4 = `{
   - verbose: true
 }`;
 
-test('getComparisonFile', () => {
+test('test json', () => {
   expect(getComparisonFile('__fixtures__/file1.json', '__fixtures__/file2.json')).toEqual(test1);
   expect(getComparisonFile('__fixtures__/file1.json', '__fixtures__/file3.json')).toEqual(test2);
   expect(getComparisonFile('__fixtures__/file1.json', '__fixtures__/file4.json')).toEqual(test3);
   expect(getComparisonFile('__fixtures__/file2.json', '__fixtures__/file3.json')).toEqual(test4);
+});
+
+test('test yaml', () => {
+  expect(getComparisonFile('__fixtures__/file1.yaml', '__fixtures__/file2.yaml')).toEqual(test1);
+  expect(getComparisonFile('__fixtures__/file1.yaml', '__fixtures__/file3.yml')).toEqual(test2);
+  expect(getComparisonFile('__fixtures__/file1.yaml', '__fixtures__/file4.yml')).toEqual(test3);
+  expect(getComparisonFile('__fixtures__/file2.yaml', '__fixtures__/file3.yml')).toEqual(test4);
 });
