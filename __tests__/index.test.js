@@ -1,4 +1,4 @@
-import getComparisonFile from '../src/index.js';
+import { getComparisonFile } from '../src/index.js';
 
 const test1 = `{
   - follow: false
