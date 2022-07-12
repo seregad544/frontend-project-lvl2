@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import comparisonFile from './index.js';
+import { getComparisonFile, stylish } from '../src/index.js';
 
-const printComparisonFile = (path1, path2) => console.log(comparisonFile(path1, path2));
+const printComparisonFile = (path1, path2) => console.log(getComparisonFile(path1, path2));
 
 program
   .name('gendiff ')
