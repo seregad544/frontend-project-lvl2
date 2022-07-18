@@ -1,64 +1,35 @@
 import _ from 'lodash';
+import formatter from './formatters/index.js';
 import parser from './parser.js';
 
-const isObject = (obj) => typeof obj === 'object' && obj !== null;
-
 const getObjectKeys = (obj1, obj2) => {
-  const key1 = (isObject(obj1)) ? Object.keys(obj1) : '';
-  const key2 = (isObject(obj2)) ? Object.keys(obj2) : '';
+  const key1 = (_.isObject(obj1)) ? Object.keys(obj1) : '';
+  const key2 = (_.isObject(obj2)) ? Object.keys(obj2) : '';
   return _.union(key1, key2).sort();
 };
 
-const getComparisonObject = (obj1, obj2) => {
-  const result = {};
-  const keys = getObjectKeys(obj1, obj2);
-  /* eslint-disable-next-line */
-  for (const key of keys) {
-    if (isObject(obj1[key]) && isObject(obj2[key])) {
-      result[`  ${key}`] = getComparisonObject(obj1[key], obj2[key]);
-    } else if (isObject(obj1[key]) && !isObject(obj2[key])) {
-      result[`- ${key}`] = obj1[key];
-      if (obj2[key] !== undefined) {
-        result[`+ ${key}`] = obj2[key];
-      }
-    } else if (!isObject(obj1[key]) && isObject(obj2[key])) {
-      if (obj1[key] !== undefined) {
-        result[`- ${key}`] = obj1[key];
-      }
-      result[`+ ${key}`] = obj2[key];
-    } else if ((key in obj1) && (key in obj2) && (obj1[key] === obj2[key])) {
-      result[`  ${key}`] = obj1[key];
-    } else if ((key in obj1) && (key in obj2) && (obj1[key] !== obj2[key])) {
-      result[`- ${key}`] = obj1[key];
-      result[`+ ${key}`] = obj2[key];
-    } else if ((key in obj1) && !(key in obj2)) {
-      result[`- ${key}`] = obj1[key];
-    } else if (!(key in obj1) && (key in obj2)) {
-      result[`+ ${key}`] = obj2[key];
+const getComparisonObject = (file1, file2) => {
+  const iter = (obj1, obj2, key) => {
+    if (!(key in obj1)) return { name: key, status: 'added', value: obj2[key] };
+    if (!(key in obj2)) return { name: key, status: 'removed', value: obj1[key] };
+    if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
+      return { name: key, status: 'nested', children: getComparisonObject(obj1[key], obj2[key]) };
     }
-  }
-  return result;
+    if (obj1[key] !== obj2[key]) {
+      return { name: key, status: 'updated', valueBefore: obj1[key], valueAfter: obj2[key] };
+    }
+    return { name: key, status: 'unupdated', value: obj1[key] };
+  };
+
+  const keys = getObjectKeys(file1, file2);
+  return keys.map((key) => iter(file1, file2, key));
 };
 
-const stylish = (obj, count = 2) => {
-  let res = '{';
-  const keys = Object.keys(obj);
-  /* eslint-disable-next-line */
-  for (const key of keys) {
-    if (isObject(obj[key])) {
-      res = res + '\n' + ' '.repeat(count) + `${key}: ` + stylish(obj[key], count + 4);
-    } else {
-      res = res + '\n' + ' '.repeat(count) + `${key}: ${obj[key]}`;
-    }
-  }
-  return (res + '\n' + ' '.repeat(count - 2) + '}');
-};
-
-const getComparisonFile = (path1, path2) => {
+const getComparisonFile = (path1, path2, formatName) => {
   const file1 = parser(path1);
   const file2 = parser(path2);
   const result = getComparisonObject(file1, file2);
-  return stylish(result);
+  return formatter(result, formatName);
 };
 
-export { getComparisonFile, stylish };
+export default getComparisonFile;

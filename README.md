@@ -3,3 +3,8 @@
 [![Actions Status](https://github.com/seregad544/frontend-project-lvl2/actions/workflows/run-test-and-lint.yml/badge.svg)](https://github.com/seregad544/frontend-project-lvl2/actions/workflows/run-test-and-lint.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/7652fa969a2b19996651/maintainability)](https://codeclimate.com/github/seregad544/frontend-project-lvl2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/7652fa969a2b19996651/test_coverage)](https://codeclimate.com/github/seregad544/frontend-project-lvl2/test_coverage)
+[![asciicast](https://asciinema.org/a/5QSdoxPFPs4CEWNJWOuMhnLDY.svg)](https://asciinema.org/a/5QSdoxPFPs4CEWNJWOuMhnLDY)
+[![asciicast](https://asciinema.org/a/xR7CyHtsF8FrSUeU616H9cmhB.svg)](https://asciinema.org/a/xR7CyHtsF8FrSUeU616H9cmhB)
+[![asciicast](https://asciinema.org/a/zhE6JHebVNAOQ3ed88Ik0DQTb.svg)](https://asciinema.org/a/zhE6JHebVNAOQ3ed88Ik0DQTb)
+[![asciicast](https://asciinema.org/a/W138fzc37OxwjTjnvre2OJ7Qe.svg)](https://asciinema.org/a/W138fzc37OxwjTjnvre2OJ7Qe)
+[![asciicast](https://asciinema.org/a/lfYmmCGPioh49DnI5XAE3uXec.svg)](https://asciinema.org/a/lfYmmCGPioh49DnI5XAE3uXec)
