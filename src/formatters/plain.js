@@ -1,12 +1,12 @@
 const plain = (value) => {
   const iter = (currentValue, name) => {
     const formattingData = (data) => {
-      if (data === true || data === false || data === null) {
-        return data;
+      if (typeof data === 'string') {
+        return `'${data}'`;
       } if (typeof data === 'object') {
         return '[complex value]';
       }
-      return `'${data}'`;
+      return data;
     };
     const newName = currentValue.name === undefined ? name : `${name}${currentValue.name}`;
     if (currentValue.status === 'nested') {
