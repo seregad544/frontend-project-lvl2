@@ -25,7 +25,7 @@ const getComparisonObject = (file1, file2) => {
   return keys.map((key) => iter(file1, file2, key));
 };
 
-const getComparisonFile = (path1, path2, formatName) => {
+const getComparisonFile = (path1, path2, formatName = 'stylish') => {
   const file1 = parser(path1);
   const file2 = parser(path2);
   const result = getComparisonObject(file1, file2);
