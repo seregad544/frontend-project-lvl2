@@ -1,4 +1,4 @@
-const stylish = (value, replacer = ' ', spacesCount = 4) => {
+const stylish = (value, replacer = ' ', spacesCount = 2) => {
   const iter = (currentValue, depth) => {
     const indentSize = depth * spacesCount;
     const topIndent = (indent) => replacer.repeat(indent);
