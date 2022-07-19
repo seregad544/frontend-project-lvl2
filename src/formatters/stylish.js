@@ -12,15 +12,15 @@ const stylish = (value, replacer = ' ', spacesCount = 2) => {
       return data;
     };
     if (currentValue.status === 'nested') {
-      return `${topIndent(indentSize)}  ${currentValue.name}: ${iter(currentValue.children, depth + 1)}`;
+      return `${topIndent(indentSize)}${currentValue.name}: ${iter(currentValue.children, depth + 1)}`;
     } if (currentValue.status === 'unupdated') {
-      return `${topIndent(indentSize)}  ${currentValue.name}: ${formattingData(currentValue.value)}`;
+      return `${topIndent(indentSize)}${currentValue.name}: ${formattingData(currentValue.value)}`;
     } if (currentValue.status === 'updated') {
-      return `${topIndent(indentSize)}- ${currentValue.name}: ${formattingData(currentValue.valueBefore)}` + '\n' + `${topIndent(indentSize)}+ ${currentValue.name}: ${formattingData(currentValue.valueAfter)}`;
+      return `${topIndent(indentSize - 2)}- ${currentValue.name}: ${formattingData(currentValue.valueBefore)}` + '\n' + `${topIndent(indentSize)}+ ${currentValue.name}: ${formattingData(currentValue.valueAfter)}`;
     } if (currentValue.status === 'added') {
-      return `${topIndent(indentSize)}+ ${currentValue.name}: ${formattingData(currentValue.value)}`;
+      return `${topIndent(indentSize - 2)}+ ${currentValue.name}: ${formattingData(currentValue.value)}`;
     } if (currentValue.status === 'removed') {
-      return `${topIndent(indentSize)}- ${currentValue.name}: ${formattingData(currentValue.value)}`;
+      return `${topIndent(indentSize - 2)}- ${currentValue.name}: ${formattingData(currentValue.value)}`;
     }
     const result = currentValue.flatMap((obj) => iter(obj, depth));
     return ['{', ...result, `${bottomIndent(indentSize)}}`].join('\n');
