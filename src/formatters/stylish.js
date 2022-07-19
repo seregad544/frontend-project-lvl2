@@ -18,7 +18,7 @@ const stylish = (value, replacer = ' ', spacesCount = 4) => {
     } if (currentValue.status === 'updated') {
       return [
         `${topIndent(indentSize - 2)}- ${currentValue.name}: ${formattingData(currentValue.valueBefore)}`,
-        `${topIndent(indentSize - 2)}+ ${currentValue.name}: ${formattingData(currentValue.valueAfter)}`
+        `${topIndent(indentSize - 2)}+ ${currentValue.name}: ${formattingData(currentValue.valueAfter)}`,
       ].join('\n');
     } if (currentValue.status === 'added') {
       return `${topIndent(indentSize - 2)}+ ${currentValue.name}: ${formattingData(currentValue.value)}`;

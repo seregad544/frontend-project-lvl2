@@ -17,7 +17,7 @@ const getComparisonObject = (file1, file2) => {
     }
     if (obj1[key] !== obj2[key]) {
       return {
-        name: key, status: 'updated', valueBefore: obj1[key], valueAfter: obj2[key]
+        name: key, status: 'updated', valueBefore: obj1[key], valueAfter: obj2[key],
       };
     }
     return { name: key, status: 'unupdated', value: obj1[key] };
