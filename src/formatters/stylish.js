@@ -16,7 +16,10 @@ const stylish = (value, replacer = ' ', spacesCount = 4) => {
     } if (currentValue.status === 'unupdated') {
       return `${topIndent(indentSize)}${currentValue.name}: ${formattingData(currentValue.value)}`;
     } if (currentValue.status === 'updated') {
-      return `${topIndent(indentSize - 2)}- ${currentValue.name}: ${formattingData(currentValue.valueBefore)}` + '\n' + `${topIndent(indentSize - 2)}+ ${currentValue.name}: ${formattingData(currentValue.valueAfter)}`;
+      return [
+        `${topIndent(indentSize - 2)}- ${currentValue.name}: ${formattingData(currentValue.valueBefore)}`,
+        `${topIndent(indentSize - 2)}+ ${currentValue.name}: ${formattingData(currentValue.valueAfter)}`
+      ].join('\n');
     } if (currentValue.status === 'added') {
       return `${topIndent(indentSize - 2)}+ ${currentValue.name}: ${formattingData(currentValue.value)}`;
     } if (currentValue.status === 'removed') {

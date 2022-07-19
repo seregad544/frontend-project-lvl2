@@ -3,9 +3,9 @@ import formatter from './formatters/index.js';
 import parser from './parser.js';
 
 const getObjectKeys = (obj1, obj2) => {
-  const key1 = (_.isObject(obj1)) ? Object.keys(obj1) : '';
-  const key2 = (_.isObject(obj2)) ? Object.keys(obj2) : '';
-  return _.union(key1, key2).sort();
+  const key1 = (_.isObject(obj1)) ? Object.keys(obj1) : [];
+  const key2 = (_.isObject(obj2)) ? Object.keys(obj2) : [];
+  return _.sortBy(_.union(key1, key2));
 };
 
 const getComparisonObject = (file1, file2) => {
@@ -16,7 +16,9 @@ const getComparisonObject = (file1, file2) => {
       return { name: key, status: 'nested', children: getComparisonObject(obj1[key], obj2[key]) };
     }
     if (obj1[key] !== obj2[key]) {
-      return { name: key, status: 'updated', valueBefore: obj1[key], valueAfter: obj2[key] };
+      return {
+        name: key, status: 'updated', valueBefore: obj1[key], valueAfter: obj2[key]
+      };
     }
     return { name: key, status: 'unupdated', value: obj1[key] };
   };

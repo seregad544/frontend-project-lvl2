@@ -11,11 +11,14 @@ const readFile = (pathFile) => {
 
 const parser = (pathFile) => {
   const [file, fileExtension] = readFile(pathFile);
-  if (fileExtension === '.json') {
-    return JSON.parse(file);
-  }
-  if (fileExtension === '.yaml' || fileExtension === '.yml') {
-    return load(file);
+  switch (fileExtension) {
+    case '.json':
+      return JSON.parse(file);
+    case '.yaml':
+    case '.yml':
+      return load(file);
+    default:
+      return 'error input format';
   }
 };
 
