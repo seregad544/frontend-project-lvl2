@@ -1,9 +1,8 @@
-import _ from 'lodash';
+import { readFileSync } from 'fs';
+import { resolve, extname } from 'path';
 import getFormattedData from './formatters/index.js';
 import parse from './parser.js';
 import getAstDifferences from './ast.js';
-import { readFileSync } from 'fs';
-import { resolve, extname } from 'path';
 
 const readFile = (pathFile) => {
   const fullPath = resolve(pathFile);
