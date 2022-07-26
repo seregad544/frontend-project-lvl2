@@ -1,6 +1,6 @@
-import genDiff from '../src/index.js';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
+import genDiff from '../src/index.js';
 
 const pathPlainResult = resolve('__fixtures__/plainResult.txt');
 const pathStylishResult = resolve('__fixtures__/stylishResult.txt');
@@ -12,8 +12,6 @@ const pathJson1 = resolve('__fixtures__/file1.json');
 const pathJson2 = resolve('__fixtures__/file2.json');
 const pathYaml1 = resolve('__fixtures__/file1.yaml');
 const pathYaml2 = resolve('__fixtures__/file2.yaml');
-
-
 
 test('json', () => {
   expect(genDiff(pathJson1, pathJson2)).toEqual(stylishResult);
