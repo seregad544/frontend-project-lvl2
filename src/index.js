@@ -21,4 +21,4 @@ const genDiff = (path1, path2, outputFormat = 'stylish') => {
   return getFormattedData(astDifferences, outputFormat);
 };
 
-export { readFile, genDiff}
+export default genDiff;
