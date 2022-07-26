@@ -1,4 +1,4 @@
-const stylish = (value, replacer = ' ', spacesCount = 4) => {
+const stylish = (ast, replacer = ' ', spacesCount = 4) => {
   const iter = (currentValue, depth) => {
     const indentSize = depth * spacesCount;
     const topIndent = (indent) => replacer.repeat(indent);
@@ -6,7 +6,7 @@ const stylish = (value, replacer = ' ', spacesCount = 4) => {
     const formattingData = (data, n = 1) => {
       if (typeof data === 'object' && data !== null) {
         const currentIndent = (depth + n) * spacesCount;
-        const nestedData = Object.entries(data).map(([key, valu]) => `${topIndent(currentIndent)}${key}: ${formattingData(valu, n + 1)}`);
+        const nestedData = Object.entries(data).map(([key, value]) => `${topIndent(currentIndent)}${key}: ${formattingData(value, n + 1)}`);
         return ['{', ...nestedData, `${bottomIndent(currentIndent)}}`].join('\n');
       }
       return data;
@@ -28,7 +28,7 @@ const stylish = (value, replacer = ' ', spacesCount = 4) => {
     const result = currentValue.flatMap((obj) => iter(obj, depth));
     return ['{', ...result, `${bottomIndent(indentSize)}}`].join('\n');
   };
-  return iter(value, 1);
+  return iter(ast, 1);
 };
 
 export default stylish;

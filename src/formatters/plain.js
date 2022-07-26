@@ -1,6 +1,6 @@
-const plain = (value) => {
-  const iter = (currentValue, name) => {
-    const formattingData = (data) => {
+const plain = (ast) => {
+  const iter = (currentValue, path) => {
+    const getFormattedString = (data) => {
       if (typeof data === 'string') {
         return `'${data}'`;
       } if (typeof data === 'object' && data !== null) {
@@ -8,22 +8,22 @@ const plain = (value) => {
       }
       return data;
     };
-    const newName = currentValue.name === undefined ? name : `${name}${currentValue.name}`;
+    const currentPath = (currentValue.name === undefined) ? path : `${path}${currentValue.name}`;
     if (currentValue.status === 'nested') {
-      return iter(currentValue.children, `${newName}.`);
+      return iter(currentValue.children, `${currentPath}.`);
     } if (currentValue.status === 'unupdated') {
       return [];
     } if (currentValue.status === 'updated') {
-      return `Property '${newName}' was updated. From ${formattingData(currentValue.valueBefore)} to ${formattingData(currentValue.valueAfter)}`;
+      return `Property '${currentPath}' was updated. From ${getFormattedString(currentValue.valueBefore)} to ${getFormattedString(currentValue.valueAfter)}`;
     } if (currentValue.status === 'added') {
-      return `Property '${newName}' was added with value: ${formattingData(currentValue.value)}`;
+      return `Property '${currentPath}' was added with value: ${getFormattedString(currentValue.value)}`;
     } if (currentValue.status === 'removed') {
-      return `Property '${newName}' was removed`;
+      return `Property '${currentPath}' was removed`;
     }
-    const result = currentValue.flatMap((obj) => iter(obj, newName));
+    const result = currentValue.flatMap((object) => iter(object, currentPath));
     return result.join('\n');
   };
-  return iter(value, '');
+  return iter(ast, '');
 };
 
 export default plain;

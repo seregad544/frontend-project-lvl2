@@ -2,17 +2,17 @@ import plain from './plain.js';
 import stylish from './stylish.js';
 import json from './json.js';
 
-const formatter = (tree, format) => {
-  switch (format) {
+const getFormattedData = (ast, outputFormat) => {
+  switch (outputFormat) {
     case 'stylish':
-      return stylish(tree);
+      return stylish(ast);
     case 'plain':
-      return plain(tree);
+      return plain(ast);
     case 'json':
-      return json(tree);
+      return json(ast);
     default:
-      return 'error output format';
+      throw new Error(`Incorrect output format: '${outputFormat}'!`);
   }
 };
 
-export default formatter;
+export default getFormattedData;

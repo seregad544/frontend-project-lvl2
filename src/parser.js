@@ -1,25 +1,15 @@
-import { readFileSync } from 'fs';
-import { resolve, extname } from 'path';
 import { load } from 'js-yaml';
 
-const readFile = (pathFile) => {
-  const fullPath = resolve(pathFile);
-  const fileExtension = extname(fullPath);
-  const file = readFileSync(fullPath, 'utf8');
-  return [file, fileExtension];
-};
-
-const parser = (pathFile) => {
-  const [file, fileExtension] = readFile(pathFile);
-  switch (fileExtension) {
+const parse = (data, extension) => {
+  switch (extension) {
     case '.json':
-      return JSON.parse(file);
+      return JSON.parse(data);
     case '.yaml':
     case '.yml':
-      return load(file);
+      return load(data);
     default:
-      return 'error input format';
+      throw new Error(`Incorrect extension file: '${extension}'!`);
   }
 };
 
-export default parser;
+export default parse;
