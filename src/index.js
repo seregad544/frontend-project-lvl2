@@ -1,23 +1,28 @@
 import { readFileSync } from 'fs';
 import { resolve, extname } from 'path';
-import getFormattedData from './formatters/index.js';
+import formatData from './formatters/index.js';
 import parse from './parser.js';
-import getAstDifferences from './ast.js';
+import buildTreeDifferences from './ast.js';
 
-const readFile = (pathFile) => {
-  const fullPath = resolve(pathFile);
-  const extension = extname(fullPath);
+const getExtension = (fullPath) => extname(fullPath).slice(1);
+
+const getData = (fullPath) => {
+  const extension = getExtension(fullPath);
   const data = readFileSync(fullPath, 'utf8');
   return [data, extension];
 };
 
+const getParsingData = (path) => {
+  const fullPath = resolve(path);
+  const data = parse(...getData(fullPath));
+  return data;
+};
+
 const genDiff = (path1, path2, outputFormat = 'stylish') => {
-  const [data1, extension1] = readFile(path1);
-  const [data2, extension2] = readFile(path2);
-  const object1 = parse(data1, extension1);
-  const object2 = parse(data2, extension2);
-  const astDifferences = getAstDifferences(object1, object2);
-  return getFormattedData(astDifferences, outputFormat);
+  const data1 = getParsingData(path1);
+  const data2 = getParsingData(path2);
+  const treeDifferences = buildTreeDifferences(data1, data2);
+  return formatData(treeDifferences, outputFormat);
 };
 
 export default genDiff;

@@ -6,12 +6,12 @@ const getKeysObjects = (object1, object2) => {
   return _.sortBy(_.union(key1, key2));
 };
 
-const getAstDifferences = (object1, object2) => {
+const buildTreeDifferences = (object1, object2) => {
   const iter = (currentObject1, currentObject2, key) => {
     if (!(key in currentObject1)) return { name: key, status: 'added', value: currentObject2[key] };
     if (!(key in currentObject2)) return { name: key, status: 'removed', value: currentObject1[key] };
     if (_.isObject(currentObject1[key]) && _.isObject(currentObject2[key])) {
-      return { name: key, status: 'nested', children: getAstDifferences(currentObject1[key], currentObject2[key]) };
+      return { name: key, status: 'nested', children: buildTreeDifferences(currentObject1[key], currentObject2[key]) };
     }
     if (currentObject1[key] !== currentObject2[key]) {
       return {
@@ -24,4 +24,4 @@ const getAstDifferences = (object1, object2) => {
   return keys.map((key) => iter(object1, object2, key));
 };
 
-export default getAstDifferences;
+export default buildTreeDifferences;

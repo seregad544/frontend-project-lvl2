@@ -1,4 +1,4 @@
-const stylish = (ast, replacer = ' ', spacesCount = 4) => {
+const stylish = (tree, replacer = ' ', spacesCount = 4) => {
   const iter = (currentValue, depth) => {
     const indentSize = depth * spacesCount;
     const topIndent = (indent) => replacer.repeat(indent);
@@ -28,7 +28,7 @@ const stylish = (ast, replacer = ' ', spacesCount = 4) => {
     const result = currentValue.flatMap((obj) => iter(obj, depth));
     return ['{', ...result, `${bottomIndent(indentSize)}}`].join('\n');
   };
-  return iter(ast, 1);
+  return iter(tree, 1);
 };
 
 export default stylish;

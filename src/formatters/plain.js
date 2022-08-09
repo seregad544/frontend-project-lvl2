@@ -1,4 +1,4 @@
-const plain = (ast) => {
+const plain = (tree) => {
   const iter = (currentValue, path) => {
     const getFormattedString = (data) => {
       if (typeof data === 'string') {
@@ -23,7 +23,7 @@ const plain = (ast) => {
     const result = currentValue.flatMap((object) => iter(object, currentPath));
     return result.join('\n');
   };
-  return iter(ast, '');
+  return iter(tree, '');
 };
 
 export default plain;
