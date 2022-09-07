@@ -1,29 +1,29 @@
 import _ from 'lodash';
 
+const stringify = (data) => {
+  if (typeof data === 'string') {
+    return `'${data}'`;
+  } if (_.isObject(data)) {
+    return '[complex value]';
+  }
+  return `${data}`;
+};
+
+const typeFunctions = {
+  root: (data, path, iter) => data.children.flatMap((object) => iter(object, path)).join('\n'),
+  nested: (data, path, iter) => iter(data.children, `${path}.`),
+  unupdated: () => [],
+  updated: (data, path) => `Property '${path}' was updated. From ${stringify(data.value1)} to ${stringify(data.value2)}`,
+  added: (data, path) => `Property '${path}' was added with value: ${stringify(data.value)}`,
+  removed: (data, path) => `Property '${path}' was removed`,
+};
+
+const getFormattedData = (data, path, iter) => typeFunctions[data.type](data, path, iter);
+
 const plain = (tree) => {
-  const iter = (currentValue, path) => {
-    const getFormattedString = (data) => {
-      if (typeof data === 'string') {
-        return `'${data}'`;
-      } if (_.isObject(data)) {
-        return '[complex value]';
-      }
-      return data;
-    };
-    const currentPath = (currentValue.key === undefined) ? path : `${path}${currentValue.key}`;
-    if (currentValue.status === 'nested') {
-      return iter(currentValue.children, `${currentPath}.`);
-    } if (currentValue.status === 'unupdated') {
-      return [];
-    } if (currentValue.status === 'updated') {
-      return `Property '${currentPath}' was updated. From ${getFormattedString(currentValue.value1)} to ${getFormattedString(currentValue.value2)}`;
-    } if (currentValue.status === 'added') {
-      return `Property '${currentPath}' was added with value: ${getFormattedString(currentValue.value)}`;
-    } if (currentValue.status === 'removed') {
-      return `Property '${currentPath}' was removed`;
-    }
-    const result = currentValue.flatMap((object) => iter(object, currentPath));
-    return result.join('\n');
+  const iter = (node, path) => {
+    const currentPath = (node.key === undefined) ? path : `${path}${node.key}`;
+    return getFormattedData(node, currentPath, iter);
   };
   return iter(tree, '');
 };

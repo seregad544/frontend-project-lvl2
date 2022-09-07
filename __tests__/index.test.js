@@ -2,16 +2,18 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import genDiff from '../src/index.js';
 
-const pathPlainResult = resolve('__fixtures__/plainResult.txt');
-const pathStylishResult = resolve('__fixtures__/stylishResult.txt');
-const pathJsonResult = resolve('__fixtures__/jsonResult.txt');
-const plainResult = readFileSync(pathPlainResult, 'utf8');
-const stylishResult = readFileSync(pathStylishResult, 'utf8');
-const jsonResult = readFileSync(pathJsonResult, 'utf8');
-const pathJson1 = resolve('__fixtures__/file1.json');
-const pathJson2 = resolve('__fixtures__/file2.json');
-const pathYaml1 = resolve('__fixtures__/file1.yaml');
-const pathYaml2 = resolve('__fixtures__/file2.yaml');
+const getFixturePath = (fileName) => resolve('__fixtures__/', fileName);
+const readFixture = (filePath) => readFileSync(filePath, 'utf8');
+const pathPlainResult = getFixturePath('plainResult.txt');
+const pathStylishResult = getFixturePath('stylishResult.txt');
+const pathJsonResult = getFixturePath('jsonResult.txt');
+const plainResult = readFixture(pathPlainResult);
+const stylishResult = readFixture(pathStylishResult);
+const jsonResult = readFixture(pathJsonResult);
+const pathJson1 = getFixturePath('file1.json');
+const pathJson2 = getFixturePath('file2.json');
+const pathYaml1 = getFixturePath('file1.yaml');
+const pathYaml2 = getFixturePath('file2.yaml');
 
 test('json', () => {
   expect(genDiff(pathJson1, pathJson2)).toEqual(stylishResult);
