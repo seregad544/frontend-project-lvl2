@@ -1,10 +1,11 @@
 import { readFileSync } from 'fs';
 import { resolve, extname } from 'path';
+import process from 'process';
 import formatData from './formatters/index.js';
 import parse from './parser.js';
 import buildTree from './ast.js';
 
-const getFullPath = (path) => resolve(path);
+const getFullPath = (path) => resolve(process.cwd(), path);
 const extractFormat = (fullPath) => extname(fullPath).slice(1);
 const getData = (fullPath) => parse(readFileSync(fullPath, 'utf8'), extractFormat(fullPath));
 
