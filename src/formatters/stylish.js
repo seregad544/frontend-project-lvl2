@@ -1,37 +1,40 @@
 import _ from 'lodash';
 
-const indent = (depth) => {
-  const replacer = ' ';
-  const spacesCount = 4;
-  return replacer.repeat(depth * spacesCount - 4);
-};
+const replacer = ' ';
+const spacesCount = 4;
+
+const indent = (depth) => replacer.repeat(depth * spacesCount - 4);
 
 const stringify = (data, depth) => {
-  if (_.isNull(data)) {
-    return 'null';
-  } if (!_.isPlainObject(data)) {
-    return data.toString();
-  } if (_.isArray(data)) {
+  if (_.isArray(data)) {
     return `[${data}]`;
+  } if (!_.isObject(data)) {
+    return String(data);
   }
-  const nestedData = Object.entries(data).map(([key, value]) => `  ${indent(depth + 1)}  ${key}: ${stringify(value, depth + 1)}`);
-  return ['{', ...nestedData, `${indent(depth + 1)}}`].join('\n');
+  const output = Object.entries(data).map(([key, value]) => `  ${indent(depth + 1)}  ${key}: ${stringify(value, depth + 1)}`);
+  return `{
+${output.join('\n')}
+${indent(depth + 1)}}`;
 };
 
 const nodes = {
-  root: (data, depth, iter) => `{
-${data.children.flatMap((obj) => iter(obj, depth)).join('\n')}
-${indent(depth)}}`,
-  nested: (data, depth, iter) => `  ${indent(depth)}  ${data.key}: {
-${data.children.flatMap((obj) => iter(obj, depth + 1)).join('\n')}
-${indent(depth + 1)}}`,
-  unupdated: (data, depth) => `  ${indent(depth)}  ${data.key}: ${stringify(data.value, depth)}`,
-  updated: (data, depth) => [
-    `  ${indent(depth)}- ${data.key}: ${stringify(data.value1, depth)}`,
-    `  ${indent(depth)}+ ${data.key}: ${stringify(data.value2, depth)}`,
-  ].join('\n'),
-  added: (data, depth) => `  ${indent(depth)}+ ${data.key}: ${stringify(data.value, depth)}`,
-  removed: (data, depth) => `  ${indent(depth)}- ${data.key}: ${stringify(data.value, depth)}`,
+  root: (node, depth, iter) => {
+    const output = node.children.flatMap((obj) => iter(obj, depth));
+    return `{
+${output.join('\n')}
+${indent(depth)}}`;
+  },
+  nested: (node, depth, iter) => {
+    const output = node.children.flatMap((obj) => iter(obj, depth + 1));
+    return `  ${indent(depth)}  ${node.key}: {
+${output.join('\n')}
+${indent(depth + 1)}}`;
+  },
+  unupdated: (node, depth) => `  ${indent(depth)}  ${node.key}: ${stringify(node.value, depth)}`,
+  updated: (node, depth) => `  ${indent(depth)}- ${node.key}: ${stringify(node.value1, depth)}
+  ${indent(depth)}+ ${node.key}: ${stringify(node.value2, depth)}`,
+  added: (node, depth) => `  ${indent(depth)}+ ${node.key}: ${stringify(node.value, depth)}`,
+  removed: (node, depth) => `  ${indent(depth)}- ${node.key}: ${stringify(node.value, depth)}`,
 };
 
 const render = (tree) => {
