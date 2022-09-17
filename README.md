@@ -91,9 +91,13 @@ make install
 ### Usage ###
 
 ```gendiff [options] <pathToFile1> <pathToFile2>```
+
 Options:
+
 `-V, --version` output the version number
+
 `-f, --format <type>` Output format
+
 `-h, --help` output usage information
 
 ### Example ###
@@ -110,10 +114,10 @@ Options:
 
 [![asciicast](https://asciinema.org/a/zhE6JHebVNAOQ3ed88Ik0DQTb.svg)](https://asciinema.org/a/zhE6JHebVNAOQ3ed88Ik0DQTb)
 
-**recursive comparison (output formats: plain)**
+**recursive comparison (output format: plain)**
 
 [![asciicast](https://asciinema.org/a/W138fzc37OxwjTjnvre2OJ7Qe.svg)](https://asciinema.org/a/W138fzc37OxwjTjnvre2OJ7Qe)
 
-**recursive comparison (output formats: json)**
+**recursive comparison (output format: json)**
 
 [![asciicast](https://asciinema.org/a/lfYmmCGPioh49DnI5XAE3uXec.svg)](https://asciinema.org/a/lfYmmCGPioh49DnI5XAE3uXec)
